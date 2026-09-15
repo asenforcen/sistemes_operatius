@@ -127,8 +127,8 @@ main { padding-bottom: 50px; }
   font-weight: 600;
   text-decoration: none !important;
   margin-top: 8px;
-  margin-right: 18px;
-  margin-left: 18px;
+  margin-right: 14px;
+  margin-left: 14px;
 }
 .boto:hover { background: var(--mari); }
 
