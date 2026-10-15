@@ -1,0 +1,36 @@
+/* Extensión exclusiva del informe de Ubuntu. Conserva intacta la estructura del sitio. */
+.informe-so .intro-informe { color: var(--tinta-suau); margin: 10px 0 18px; }
+.informe-so .apartat h3 { color: var(--mari); font-size: 1.1rem; margin: 22px 0 9px; }
+.informe-so .apartat h4 { color: var(--tinta); font-size: 1rem; margin: 14px 0 4px; }
+.informe-so .apartat p { margin: 8px 0 14px; }
+.informe-so code { font-family: "JetBrains Mono", Consolas, "Liberation Mono", monospace; font-size: .92em; }
+.informe-so pre {
+  margin: 12px 0 18px; padding: 15px 19px; border: 1px solid #cad6e0;
+  background: #eef2f6; color: #1b3248; border-left: 4px solid var(--teal);
+  border-radius: 8px; white-space: pre; overflow-x: auto; line-height: 1.5;
+}
+.informe-so pre code { font-size: .86rem; }
+.informe-so figure.captura { margin: 14px 0 22px; }
+.informe-so figure.captura > a { display: block; width: fit-content; max-width: 100%; margin: 0 auto; }
+.informe-so figure.captura img {
+  display: block; max-width: 100%; height: auto; margin: 0;
+  background: #fff; border: 1px solid var(--vora); border-radius: 8px;
+}
+.informe-so figure.captura figcaption { color: var(--tinta-suau); font-size: .86rem; text-align: center; margin-top: 6px; }
+.informe-so .dos-capturas { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+.informe-so .dos-capturas figure { min-width: 0; }
+.informe-so .comando { border: 1px solid var(--vora); border-radius: var(--radi); padding: 16px; margin: 18px 0; }
+.informe-so .comando h3 { margin-top: 0; }
+.informe-so .comando p { margin-bottom: 12px; }
+.informe-so .comando pre { margin-bottom: 12px; }
+.informe-so .comando figure { margin-bottom: 0; }
+.informe-so .nota-practica { background: #f3f6f9; border-left: 3px solid var(--teal); padding: 13px 15px; margin: 15px 0; }
+.informe-so .nota-practica p { margin: 0; }
+.informe-so .pas { margin: 18px 0 25px; }
+.informe-so .tabla-apartados-contenido td:first-child { font-weight: 600; }
+.informe-so .separador-breve { border: 0; border-top: 1px solid var(--vora); margin: 24px 0; }
+@media (max-width: 660px) {
+  .informe-so .dos-capturas { grid-template-columns: 1fr; gap: 0; }
+  .informe-so.panell { padding: 24px 18px; }
+  .informe-so pre { padding: 12px; }
+}
