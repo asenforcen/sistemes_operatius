@@ -38,7 +38,7 @@
       </tbody>
     </table>
     <article class="apartat" id="apartat1">
-      <h2>2. Sistemas de ficheros</h2>
+      <h2>Sistemas de Ficheros</h2>
       <p>Se pedía preparar particiones ext4 y NTFS, montarlas y configurar su montaje automático. Se han creado particiones en discos de 20 y 25 GiB, formateado, creado archivos y carpetas de prueba, comprobado el montaje y añadido sus UUID a /etc/fstab. Se muestran dos pruebas sobre /dev/sdb1, primero en un disco de 20 GiB y después en uno de 25 GiB.</p>
       <p>Identificación de los discos disponibles mediante fdisk -l. La captura diferencia el disco del sistema /dev/sda del disco adicional /dev/sdb, que tiene 20 GiB y se utilizará en las pruebas con ext4.</p>
       <img src="../../img/sprint_ubuntu2/Sistemas_ficheros/2026-11-08_21-33.png" alt="Identificación de los discos disponibles mediante fdisk -l" loading="lazy">
@@ -81,7 +81,7 @@
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
     <article class="apartat" id="apartat2">
-      <h2>3. Tipo de Formateo</h2>
+      <h2>Tipo de Formateo</h2>
       <p>Se pedía comparar el formateo con la sobrescritura de una imagen de disco y comprobar la recuperación de archivos.</p>
       <p>Archivos iniciales en /mnt/prova y cálculo de sus hashes SHA-256. Los valores se guardan en originals.sha para utilizarlos como referencia. Compararlos con los de los archivos recuperados permitiría comprobar si su contenido coincide byte a byte.</p>
       <img src="../../img/sprint_ubuntu2/Tipo_Formateo/2026-11-08_21-15.png" alt="Archivos iniciales en /mnt/prova y cálculo de sus hashes SHA-256" loading="lazy">
@@ -98,7 +98,7 @@
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
     <article class="apartat" id="apartat3">
-      <h2>4. Gestion Procesos</h2>
+      <h2>Gestión de Procesos</h2>
       <p>Se pedía diagnosticar la lentitud del sistema, identificar procesos y controlar su ejecución. Se han preparado los scripts, localizado los procesos con ps y pgrep, revisado la CPU con top, gestionado la descarga con fg y bg, cambiado su prioridad y probado señales para detener, reanudar y terminar procesos.</p>
       <p>Preparación de los scripts de la misión y asignación del permiso de ejecución con chmod +x. El primer intento de ejecutar minador falla por falta de ese permiso. Los scripts se guardan en la carpeta de la misión y se comprueban con ls -l. Tras conceder permiso de ejecución, se lanza el script que inicia los procesos de prueba.</p>
       <img src="../../img/sprint_ubuntu2/Gestion_Procesos/2026-11-08_19-21.png" alt="Preparación de los scripts de la misión y asignación del permiso de ejecución con chmod +x" loading="lazy">
@@ -119,7 +119,7 @@
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
     <article class="apartat" id="apartat4">
-      <h2>5. gestion usuarios 1</h2>
+      <h2>Gestión Usuarios 1</h2>
       <p>Se pedía administrar las cuentas y los grupos de PixelForge, desde su creación hasta su modificación y eliminación. Se han consultado identidades, comprobado las cuentas creadas, probado sesiones, cambiado grupos, bloqueado y desbloqueado a marc y renombrado nuria como nvidal.</p>
       <p>Consulta de identidad, UID, grupos y archivos de cuentas. /etc/shadow requiere privilegios y /etc/skel contiene los archivos base del perfil. whoami e id muestran el usuario actual y sus grupos. La comparación entre el intento de leer shadow sin privilegios y la consulta con sudo evidencia la restricción de acceso a ese archivo.</p>
       <img src="../../img/sprint_ubuntu2/gestion_usuarios_1/2026-11-08_20-13.png" alt="Consulta de identidad, UID, grupos y archivos de cuentas" loading="lazy">
@@ -140,7 +140,7 @@
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
     <article class="apartat" id="apartat5">
-      <h2>6. gestion usuarios 2</h2>
+      <h2>Gestión Usuarios 2</h2>
       <p>Se pedía organizar el acceso a las carpetas de PixelForge mediante permisos, propietarios, SGID, sticky bit, ACL y umask. Se han preparado las carpetas, aplicado permisos numéricos y simbólicos, comprobado accesos, probado sticky bit y ACL e inspeccionado umask y SUID.</p>
       <p>Creación de /srv/pixelforge, sus cuatro subcarpetas y los archivos iniciales. Los directorios pertenecen a root:root. mkdir prepara las carpetas codi, art, proves y compartit, y touch crea los archivos de ejemplo. Al ejecutar estas órdenes con sudo, sus propietarios iniciales son root.</p>
       <img src="../../img/sprint_ubuntu2/gestion_usuarios_2/captura1.png" alt="Creación de /srv/pixelforge, sus cuatro subcarpetas y los archivos iniciales" loading="lazy">
