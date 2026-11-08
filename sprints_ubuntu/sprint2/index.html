@@ -30,23 +30,14 @@
         <tr><th>#</th><th>Apartat</th></tr>
       </thead>
       <tbody>
-        <tr><td>1</td><td><a href="#apartat1">Creación del disco</a></td></tr>
-        <tr><td>2</td><td><a href="#apartat2">Sistemas de ficheros</a></td></tr>
-        <tr><td>3</td><td><a href="#apartat3">Tipo de Formateo</a></td></tr>
-        <tr><td>4</td><td><a href="#apartat4">Gestion Procesos</a></td></tr>
-        <tr><td>5</td><td><a href="#apartat5">gestion usuarios 1</a></td></tr>
-        <tr><td>6</td><td><a href="#apartat6">gestion usuarios 2</a></td></tr>
+        <tr><td>2</td><td><a href="#apartat1">Sistemas de ficheros</a></td></tr>
+        <tr><td>3</td><td><a href="#apartat2">Tipo de Formateo</a></td></tr>
+        <tr><td>4</td><td><a href="#apartat3">Gestion Procesos</a></td></tr>
+        <tr><td>5</td><td><a href="#apartat4">gestion usuarios 1</a></td></tr>
+        <tr><td>6</td><td><a href="#apartat5">gestion usuarios 2</a></td></tr>
       </tbody>
     </table>
-
     <article class="apartat" id="apartat1">
-      <h2>1. Creación del disco</h2>
-      <p>En esta práctica se revisa el almacenamiento de una máquina virtual en VirtualBox, identificando los discos y los controladores configurados antes de realizar operaciones sobre ellos.</p>
-      <p>La captura muestra la configuración de almacenamiento de la máquina virtual. Está seleccionado el disco dual_boot.vdi en el controlador SATA, con formato VDI y un tamaño virtual de 150 GB. También aparecen otros dispositivos de almacenamiento conectados.</p>
-      <img src="../../img/sprint_ubuntu2/creacion_disco/2026-10-23_12-56.png" alt="La captura muestra la configuración de almacenamiento de la máquina virtual" loading="lazy">
-      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
-    </article>
-    <article class="apartat" id="apartat2">
       <h2>2. Sistemas de ficheros</h2>
       <p>Se pedía preparar particiones ext4 y NTFS, montarlas y configurar su montaje automático. Se han creado particiones en discos de 20 y 25 GiB, formateado, creado archivos y carpetas de prueba, comprobado el montaje y añadido sus UUID a /etc/fstab. Se muestran dos pruebas sobre /dev/sdb1, primero en un disco de 20 GiB y después en uno de 25 GiB.</p>
       <p>Identificación de los discos disponibles mediante fdisk -l. La captura diferencia el disco del sistema /dev/sda del disco adicional /dev/sdb, que tiene 20 GiB y se utilizará en las pruebas con ext4.</p>
@@ -89,7 +80,7 @@
       <img src="../../img/sprint_ubuntu2/Sistemas_ficheros/2026-11-08_22-29.png" alt="Comprobación final del montaje NTFS y de los elementos de prueba" loading="lazy">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
-    <article class="apartat" id="apartat3">
+    <article class="apartat" id="apartat2">
       <h2>3. Tipo de Formateo</h2>
       <p>Se pedía comparar el formateo con la sobrescritura de una imagen de disco y comprobar la recuperación de archivos.</p>
       <p>Archivos iniciales en /mnt/prova y cálculo de sus hashes SHA-256. Los valores se guardan en originals.sha para utilizarlos como referencia. Compararlos con los de los archivos recuperados permitiría comprobar si su contenido coincide byte a byte.</p>
@@ -106,7 +97,7 @@
       <img src="../../img/sprint_ubuntu2/Tipo_Formateo/2026-11-08_21-20_1.png" alt="La búsqueda de pizza ya no devuelve resultados" loading="lazy">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
-    <article class="apartat" id="apartat4">
+    <article class="apartat" id="apartat3">
       <h2>4. Gestion Procesos</h2>
       <p>Se pedía diagnosticar la lentitud del sistema, identificar procesos y controlar su ejecución. Se han preparado los scripts, localizado los procesos con ps y pgrep, revisado la CPU con top, gestionado la descarga con fg y bg, cambiado su prioridad y probado señales para detener, reanudar y terminar procesos.</p>
       <p>Preparación de los scripts de la misión y asignación del permiso de ejecución con chmod +x. El primer intento de ejecutar minador falla por falta de ese permiso. Los scripts se guardan en la carpeta de la misión y se comprueban con ls -l. Tras conceder permiso de ejecución, se lanza el script que inicia los procesos de prueba.</p>
@@ -127,7 +118,7 @@
       <img src="../../img/sprint_ubuntu2/Gestion_Procesos/2026-11-08_20-03.png" alt="espia se termina con SIGKILL y backup_nocturn pasa por los estados detenido y reanudado" loading="lazy">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
-    <article class="apartat" id="apartat5">
+    <article class="apartat" id="apartat4">
       <h2>5. gestion usuarios 1</h2>
       <p>Se pedía administrar las cuentas y los grupos de PixelForge, desde su creación hasta su modificación y eliminación. Se han consultado identidades, comprobado las cuentas creadas, probado sesiones, cambiado grupos, bloqueado y desbloqueado a marc y renombrado nuria como nvidal.</p>
       <p>Consulta de identidad, UID, grupos y archivos de cuentas. /etc/shadow requiere privilegios y /etc/skel contiene los archivos base del perfil. whoami e id muestran el usuario actual y sus grupos. La comparación entre el intento de leer shadow sin privilegios y la consulta con sudo evidencia la restricción de acceso a ese archivo.</p>
@@ -148,7 +139,7 @@
       <img src="../../img/sprint_ubuntu2/gestion_usuarios_1/2026-11-08_20-33.png" alt="Cambio de nuria a nvidal, renombrado de su grupo y traslado de su carpeta personal" loading="lazy">
       <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
     </article>
-    <article class="apartat" id="apartat6">
+    <article class="apartat" id="apartat5">
       <h2>6. gestion usuarios 2</h2>
       <p>Se pedía organizar el acceso a las carpetas de PixelForge mediante permisos, propietarios, SGID, sticky bit, ACL y umask. Se han preparado las carpetas, aplicado permisos numéricos y simbólicos, comprobado accesos, probado sticky bit y ACL e inspeccionado umask y SUID.</p>
       <p>Creación de /srv/pixelforge, sus cuatro subcarpetas y los archivos iniciales. Los directorios pertenecen a root:root. mkdir prepara las carpetas codi, art, proves y compartit, y touch crea los archivos de ejemplo. Al ejecutar estas órdenes con sudo, sus propietarios iniciales son root.</p>
