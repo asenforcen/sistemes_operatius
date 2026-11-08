@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sprint 2 · Instal·lació, Configuració de Programari de Base i Gestió de Fitxers</title>
+<link rel="stylesheet" href="../../css/estils.css">
+</head>
+<body>
+
+<header class="hero">
+  <nav class="hero-nav">
+    <a href="../../index.html">Portada</a>
+    <a href="../../sprints_ubuntu.html">Índex de sprints Ubuntu</a>
+    <a href="../../sprints_windows.html">Índex de sprints Windows</a>
+    <a href="https://github.com/asenforcen/sistemes_operatius" target="_blank" rel="noopener">Codi a GitHub ↗</a>
+  </nav>
+  <div class="hero-titol">
+    <p class="miguetes"><a href="../../index.html">Portada</a> / <a href="../../sprints_ubuntu.html">Índex de sprints Ubuntu</a> / Sprint 2 · Ubuntu</p>
+    <h1>Sprint 2 · Instal·lació, Configuració de Programari de Base i Gestió de Fitxers</h1>
+    <p class="subtitol">Índex d'apartats d'aquest sprint</p>
+  </div>
+</header>
+
+<main class="contenidor">
+  <section class="panell">
+    <a id="index-apartats"></a>
+    <table class="taula-apartats">
+      <thead>
+        <tr><th>#</th><th>Apartat</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><a href="#apartat1">Creación del disco</a></td></tr>
+        <tr><td>2</td><td><a href="#apartat2">Sistemas de ficheros</a></td></tr>
+        <tr><td>3</td><td><a href="#apartat3">Tipo de Formateo</a></td></tr>
+        <tr><td>4</td><td><a href="#apartat4">Gestion Procesos</a></td></tr>
+        <tr><td>5</td><td><a href="#apartat5">gestion usuarios 1</a></td></tr>
+        <tr><td>6</td><td><a href="#apartat6">gestion usuarios 2</a></td></tr>
+      </tbody>
+    </table>
+
+    <article class="apartat" id="apartat1">
+      <h2>1. Creación del disco</h2>
+      <p>En esta práctica se revisa el almacenamiento de una máquina virtual en VirtualBox, identificando los discos y los controladores configurados antes de realizar operaciones sobre ellos.</p>
+      <p>La captura muestra la configuración de almacenamiento de la máquina virtual. Está seleccionado el disco dual_boot.vdi en el controlador SATA, con formato VDI y un tamaño virtual de 150 GB. También aparecen otros dispositivos de almacenamiento conectados.</p>
+      <img src="creacion%20disco/2026-10-23_12-56.png" alt="La captura muestra la configuración de almacenamiento de la máquina virtual" loading="lazy">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+    </article>
+    <article class="apartat" id="apartat2">
+      <h2>2. Sistemas de ficheros</h2>
+      <p>Se pedía preparar particiones ext4 y NTFS, montarlas y configurar su montaje automático. Se han creado particiones en discos de 20 y 25 GiB, formateado, creado archivos y carpetas de prueba, comprobado el montaje y añadido sus UUID a /etc/fstab. Se muestran dos pruebas sobre /dev/sdb1, primero en un disco de 20 GiB y después en uno de 25 GiB.</p>
+      <p>Identificación de los discos disponibles mediante fdisk -l. La captura diferencia el disco del sistema /dev/sda del disco adicional /dev/sdb, que tiene 20 GiB y se utilizará en las pruebas con ext4.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-33.png" alt="Identificación de los discos disponibles mediante fdisk -l" loading="lazy">
+      <p>Creación y guardado de una partición primaria de 20 GiB en /dev/sdb. En fdisk se crea la partición con la opción n y se guardan los cambios con w. A partir de ese momento se dispone de /dev/sdb1 para crear el sistema de archivos.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-40.png" alt="Creación y guardado de una partición primaria de 20 GiB en /dev/sdb" loading="lazy">
+      <p>Creación del sistema ext4 en /dev/sdb1 con bloques de 2048 bytes mediante mkfs.ext4 -b 2048. La opción -b establece el tamaño de bloque. La salida muestra la creación de las tablas de inodos, el diario y los superbloques necesarios para organizar los archivos.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-42.png" alt="Creación del sistema ext4 en /dev/sdb1 con bloques de 2048 bytes mediante mkfs" loading="lazy">
+      <p>Creación del directorio /mnt/particio1 como punto de montaje. Este directorio será la ruta desde la que se accederá al contenido del disco. Crearlo no monta todavía la partición: el montaje se realiza en el paso siguiente.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-43.png" alt="Creación del directorio /mnt/particio1 como punto de montaje" loading="lazy">
+      <p>Montaje de la partición ext4 y creación de las carpetas prueba y prueba2. También aparece lost+found. La orden mount vincula /dev/sdb1 con /mnt/particio1. Las carpetas de prueba permiten comprobar que se puede escribir en la partición; lost+found es un directorio propio de ext4.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-44.png" alt="Montaje de la partición ext4 y creación de las carpetas prueba y prueba2" loading="lazy">
+      <p>Desmontaje de /dev/sdb1. El directorio de montaje deja de mostrar el contenido de la partición. Antes de ejecutar umount se sale del directorio con cd .. . Los archivos permanecen en la partición, pero dejan de ser accesibles desde ese punto mientras está desmontada.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-44_1.png" alt="Desmontaje de /dev/sdb1" loading="lazy">
+      <p>Comparación con df -hT antes y después del montaje. blkid muestra el UUID y confirma el tipo ext4. La opción -h presenta las capacidades en unidades legibles y -T indica el tipo de sistema de archivos. El UUID obtenido con blkid identifica el volumen para configurar su montaje.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-46.png" alt="Comparación con df -hT antes y después del montaje" loading="lazy">
+      <p>Entrada en /etc/fstab para montar ext4 por UUID en /mnt/particio1. La línea relaciona el identificador del volumen con el directorio de montaje y el tipo ext4. Así se configura el montaje sin depender únicamente del nombre /dev/sdb1.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-49.png" alt="Entrada en /etc/fstab para montar ext4 por UUID en /mnt/particio1" loading="lazy">
+      <p>Comprobación del montaje ext4 y del acceso a las carpetas de prueba. df -hT permite revisar el tipo, el espacio disponible y la ruta de montaje. El listado de /mnt/particio1 muestra que las carpetas creadas anteriormente siguen accesibles.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_21-50.png" alt="Comprobación del montaje ext4 y del acceso a las carpetas de prueba" loading="lazy">
+      <p>Identificación de un segundo disco de 25 GiB para la prueba con NTFS. La consulta de fdisk permite comprobar la capacidad del disco de trabajo antes de particionarlo. En esta prueba el disco del sistema sigue apareciendo separado como /dev/sda.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-20.png" alt="Identificación de un segundo disco de 25 GiB para la prueba con NTFS" loading="lazy">
+      <p>Creación de una partición primaria de 25 GiB en /dev/sdb con fdisk y guardado de la tabla MBR. Se elige una partición primaria y se utilizan los sectores propuestos para ocupar el espacio disponible. La opción w escribe los cambios en el disco.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-21.png" alt="Creación de una partición primaria de 25 GiB en /dev/sdb con fdisk y guardado de la tabla MBR" loading="lazy">
+      <p>Formateo rápido NTFS con mkfs.ntfs -Q. La salida confirma la creación del volumen con clústeres de 4096 bytes. La opción -Q solicita un formateo rápido y se crean las estructuras del sistema de archivos. El mensaje de finalización confirma que mkfs.ntfs ha completado la operación.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-22.png" alt="Formateo rápido NTFS con mkfs" loading="lazy">
+      <p>Creación del directorio /mnt/particio2 para montar el volumen NTFS. Este directorio servirá como acceso al contenido de la partición. Se utiliza una ruta distinta de la prueba con ext4 para identificar claramente el montaje NTFS.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-23.png" alt="Creación del directorio /mnt/particio2 para montar el volumen NTFS" loading="lazy">
+      <p>Montaje mediante ntfs-3g y creación de dos carpetas y un archivo para comprobar la escritura. La orden mount selecciona el controlador ntfs-3g. Después, mkdir y touch crean elementos dentro del volumen, y ls permite comprobar que aparecen correctamente.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-24.png" alt="Montaje mediante ntfs-3g y creación de dos carpetas y un archivo para comprobar la escritura" loading="lazy">
+      <p>Desmontaje de NTFS. El punto de montaje queda sin los archivos de la partición. Se sale de la carpeta antes de ejecutar umount sobre /dev/sdb1. Que el directorio quede vacío no significa que se hayan borrado los datos del volumen.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-25.png" alt="Desmontaje de NTFS" loading="lazy">
+      <p>df -hT muestra el volumen de 25 GiB montado en /mnt/particio2 como fuseblk tras usar ntfs-3g. La primera consulta sirve de referencia antes del montaje y la segunda muestra el volumen ya accesible. fuseblk es el tipo que presenta este montaje realizado mediante FUSE.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-27.png" alt="df -hT muestra el volumen de 25 GiB montado en /mnt/particio2 como fuseblk tras usar ntfs-3g" loading="lazy">
+      <p>Obtención del UUID 73A0F9F536E99C24 y del tipo ntfs mediante blkid. El identificador permite referirse al volumen en la configuración de montaje. También se muestran el tamaño de bloque informado por blkid y el identificador de la partición.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-28.png" alt="Obtención del UUID 73A0F9F536E99C24 y del tipo ntfs mediante blkid" loading="lazy">
+      <p>Edición de /etc/fstab con el UUID del volumen NTFS, el punto /mnt/particio2 y el controlador ntfs-3g. La entrada asocia el volumen con su directorio y establece las opciones defaults. Esta configuración permite que el sistema intente montarlo automáticamente al arrancar.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-28_1.png" alt="Edición de /etc/fstab con el UUID del volumen NTFS, el punto /mnt/particio2 y el controlador ntfs-3g" loading="lazy">
+      <p>Comprobación final del montaje NTFS y de los elementos de prueba. No se ve una prueba de reinicio en esta captura. df -hT confirma que el volumen está accesible en /mnt/particio2 y ls muestra las carpetas y el archivo creados. Se comprueba así el acceso a los datos en ese momento.</p>
+      <img src="Sistemas%20de%20ficheros/2026-11-08_22-29.png" alt="Comprobación final del montaje NTFS y de los elementos de prueba" loading="lazy">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+    </article>
+    <article class="apartat" id="apartat3">
+      <h2>3. Tipo de Formateo</h2>
+      <p>Se pedía comparar el formateo con la sobrescritura de una imagen de disco y comprobar la recuperación de archivos.</p>
+      <p>Archivos iniciales en /mnt/prova y cálculo de sus hashes SHA-256. Los valores se guardan en originals.sha para utilizarlos como referencia. Compararlos con los de los archivos recuperados permitiría comprobar si su contenido coincide byte a byte.</p>
+      <img src="Tipo%20de%20Formateo/2026-11-08_21-15.png" alt="Archivos iniciales en /mnt/prova y cálculo de sus hashes SHA-256" loading="lazy">
+      <p>Tras el formateo, el listado de la imagen montada muestra únicamente lost+found; los archivos ya no aparecen en el directorio. El montaje se realiza con la opción loop porque se trabaja sobre el archivo disc.img. Después de revisar el contenido se desmonta la imagen para continuar con la recuperación.</p>
+      <img src="Tipo%20de%20Formateo/2026-11-08_21-16.png" alt="Tras el formateo, el listado de la imagen montada muestra únicamente lost+found; los archivos ya no aparecen en el directorio" loading="lazy">
+      <p>Consulta de los hashes originales. Falta mostrar los hashes de los archivos recuperados para poder compararlos. La orden cat originals.sha muestra los valores guardados antes del formateo. Estos son la referencia de comparación, pero por sí solos no demuestran que se hayan recuperado los archivos.</p>
+      <img src="Tipo%20de%20Formateo/2026-11-08_21-17.png" alt="Consulta de los hashes originales" loading="lazy">
+      <p>strings y grep localizan la frase con la palabra pizza dentro de disc.img después del formateo. strings extrae secuencias de texto legibles y grep filtra las que contienen esa palabra. El resultado muestra que la frase seguía presente aunque el archivo ya no apareciera en el directorio.</p>
+      <img src="Tipo%20de%20Formateo/2026-11-08_21-17_1.png" alt="strings y grep localizan la frase con la palabra pizza dentro de disc" loading="lazy">
+      <p>PhotoRec se ejecuta sobre disc.img y el listado de recup_zeros.1 contiene numerosos archivos .dovecot. No acredita una recuperación vacía. La orden indica a PhotoRec dónde buscar y dónde guardar los resultados. El listado obtenido debe revisarse antes de concluir que el contenido del disco se ha eliminado por completo.</p>
+      <img src="Tipo%20de%20Formateo/2026-11-08_21-20.png" alt="PhotoRec se ejecuta sobre disc" loading="lazy">
+      <p>La búsqueda de pizza ya no devuelve resultados. Esto demuestra que esa cadena no se encuentra, no una verificación completa de borrado. Se repite la misma búsqueda utilizada anteriormente para comparar el resultado. Al volver directamente al indicador del terminal, no se ha encontrado ninguna coincidencia con esa palabra.</p>
+      <img src="Tipo%20de%20Formateo/2026-11-08_21-20_1.png" alt="La búsqueda de pizza ya no devuelve resultados" loading="lazy">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+    </article>
+    <article class="apartat" id="apartat4">
+      <h2>4. Gestion Procesos</h2>
+      <p>Se pedía diagnosticar la lentitud del sistema, identificar procesos y controlar su ejecución. Se han preparado los scripts, localizado los procesos con ps y pgrep, revisado la CPU con top, gestionado la descarga con fg y bg, cambiado su prioridad y probado señales para detener, reanudar y terminar procesos.</p>
+      <p>Preparación de los scripts de la misión y asignación del permiso de ejecución con chmod +x. El primer intento de ejecutar minador falla por falta de ese permiso. Los scripts se guardan en la carpeta de la misión y se comprueban con ls -l. Tras conceder permiso de ejecución, se lanza el script que inicia los procesos de prueba.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-21.png" alt="Preparación de los scripts de la misión y asignación del permiso de ejecución con chmod +x" loading="lazy">
+      <p>Árbol de procesos con sus PID. Se observan backup_nocturn y espia con procesos sleep asociados. La estructura permite ver qué procesos dependen de otros. Los números entre paréntesis son sus identificadores y ayudan a localizar cada instancia para consultarla o enviarle señales.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-27.png" alt="Árbol de procesos con sus PID" loading="lazy">
+      <p>Continuación del árbol de procesos: aparecen dos instancias de minador y la relación entre el terminal, bash y pstree. Cada instancia de minador tiene un PID distinto aunque ejecute el mismo programa. El árbol también muestra que pstree se ejecuta desde una shell del terminal.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-27_1.png" alt="Continuación del árbol de procesos: aparecen dos instancias de minador y la relación entre el terminal, bash y pstree" loading="lazy">
+      <p>top y ps ordenado por CPU muestran dos procesos minador que consumen aproximadamente la mitad de una CPU cada uno. La visualización de top permite observar el consumo en tiempo real y la consulta de ps ofrece una lista ordenada. Ambas ayudan a identificar los procesos que están ocupando la CPU.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-29.png" alt="top y ps ordenado por CPU muestran dos procesos minador que consumen aproximadamente la mitad de una CPU cada uno" loading="lazy">
+      <p>Localización de procesos con ps, grep y pgrep. La consulta por PID identifica systemd como padre de los dos minador. pgrep devuelve los PID de los procesos buscados, mientras que ps permite seleccionar columnas como PID, PPID, estado y CPU. El PPID sirve para identificar el proceso padre.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-32.png" alt="Localización de procesos con ps, grep y pgrep" loading="lazy">
+      <p>La descarga se detiene con Ctrl+Z, continúa con bg y vuelve al primer plano con fg. jobs -l muestra el estado del trabajo. Ctrl+Z suspende temporalmente el trabajo y bg lo reanuda sin ocupar el primer plano del terminal. El seguimiento del archivo de progreso permite comprobar que la descarga sigue avanzando.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-40.png" alt="La descarga se detiene con Ctrl+Z, continúa con bg y vuelve al primer plano con fg" loading="lazy">
+      <p>El intento de establecer nice -10 sin privilegios falla; con sudo renice se aplica. top muestra la descarga con NI -10. Un valor nice menor da más preferencia al proceso cuando compite por CPU. Se necesitan privilegios para reducir ese valor, y la columna NI permite comprobar el cambio aplicado.</p>
+      <img src="Gestion%20Procesos/2026-11-08_19-57.png" alt="El intento de establecer nice -10 sin privilegios falla; con sudo renice se aplica" loading="lazy">
+      <p>espia se termina con SIGKILL y backup_nocturn pasa por los estados detenido y reanudado. Los dos minador siguen apareciendo tras el intento de kill. SIGKILL fuerza la terminación de espia, mientras que STOP y CONT suspenden y reanudan backup_nocturn. Las consultas posteriores permiten distinguir los procesos terminados de los que continúan activos.</p>
+      <img src="Gestion%20Procesos/2026-11-08_20-03.png" alt="espia se termina con SIGKILL y backup_nocturn pasa por los estados detenido y reanudado" loading="lazy">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+    </article>
+    <article class="apartat" id="apartat5">
+      <h2>5. gestion usuarios 1</h2>
+      <p>Se pedía administrar las cuentas y los grupos de PixelForge, desde su creación hasta su modificación y eliminación. Se han consultado identidades, comprobado las cuentas creadas, probado sesiones, cambiado grupos, bloqueado y desbloqueado a marc y renombrado nuria como nvidal.</p>
+      <p>Consulta de identidad, UID, grupos y archivos de cuentas. /etc/shadow requiere privilegios y /etc/skel contiene los archivos base del perfil. whoami e id muestran el usuario actual y sus grupos. La comparación entre el intento de leer shadow sin privilegios y la consulta con sudo evidencia la restricción de acceso a ese archivo.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-13.png" alt="Consulta de identidad, UID, grupos y archivos de cuentas" loading="lazy">
+      <p>Comprobación de las carpetas personales y de las cuentas nuria, pau, marc y laia con getent passwd. getent muestra para cada cuenta su UID, GID, directorio personal y shell. El listado de /home permite contrastar esas rutas con las carpetas existentes.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-19.png" alt="Comprobación de las carpetas personales y de las cuentas nuria, pau, marc y laia con getent passwd" loading="lazy">
+      <p>Inicio de sesión con su - nuria y creación de primer_dia.txt en su carpeta personal. whoami confirma la identidad de la sesión y pwd muestra el directorio de trabajo. El archivo creado con touch queda asociado al usuario nuria, como se observa en ls -l.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-22.png" alt="Inicio de sesión con su - nuria y creación de primer_dia" loading="lazy">
+      <p>Creación de grupos y eliminación del grupo de prueba progamadors. El listado permite distinguir nombres muy parecidos. Las órdenes groupadd y addgroup crean grupos, mientras que groupdel elimina el grupo indicado. La consulta posterior con getent permite comprobar que el nombre eliminado ya no aparece.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-24.png" alt="Creación de grupos y eliminación del grupo de prueba progamadors" loading="lazy">
+      <p>usermod -G sustituye los grupos suplementarios de nuria; -aG añade programadors. También se retira a laia de artistes. La diferencia entre -G y -aG es importante para no perder pertenencias existentes. La salida de groups y getent permite revisar cómo quedan los equipos después de cada cambio.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-27.png" alt="usermod -G sustituye los grupos suplementarios de nuria; -aG añade programadors" loading="lazy">
+      <p>Cambio del grupo principal de pau a programadors. Se comprueban la identidad y el grupo de los archivos de su carpeta personal. usermod -g establece el grupo principal de la cuenta y una nueva sesión permite comprobar el resultado. Los listados muestran cómo quedan asignados los grupos de los archivos del directorio personal.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-29.png" alt="Cambio del grupo principal de pau a programadors" loading="lazy">
+      <p>Bloqueo y desbloqueo de la contraseña de marc con passwd. La prueba con su falla durante el bloqueo y funciona después. passwd -S permite consultar el estado de la contraseña antes y después del cambio. Las opciones -l y -u bloquean y desbloquean su uso, y la prueba de inicio de sesión muestra el efecto.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-31.png" alt="Bloqueo y desbloqueo de la contraseña de marc con passwd" loading="lazy">
+      <p>Cambio de nuria a nvidal, renombrado de su grupo y traslado de su carpeta personal. La sesión final confirma el nuevo nombre. El cambio del nombre de acceso, el del grupo y el traslado del directorio se realizan con operaciones distintas. La comprobación con id y el inicio de sesión permiten revisar la nueva configuración.</p>
+      <img src="gestion%20usuarios%201/2026-11-08_20-33.png" alt="Cambio de nuria a nvidal, renombrado de su grupo y traslado de su carpeta personal" loading="lazy">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+    </article>
+    <article class="apartat" id="apartat6">
+      <h2>6. gestion usuarios 2</h2>
+      <p>Se pedía organizar el acceso a las carpetas de PixelForge mediante permisos, propietarios, SGID, sticky bit, ACL y umask. Se han preparado las carpetas, aplicado permisos numéricos y simbólicos, comprobado accesos, probado sticky bit y ACL e inspeccionado umask y SUID.</p>
+      <p>Creación de /srv/pixelforge, sus cuatro subcarpetas y los archivos iniciales. Los directorios pertenecen a root:root. mkdir prepara las carpetas codi, art, proves y compartit, y touch crea los archivos de ejemplo. Al ejecutar estas órdenes con sudo, sus propietarios iniciales son root.</p>
+      <img src="gestion%20usuarios%202/captura1.png" alt="Creación de /srv/pixelforge, sus cuatro subcarpetas y los archivos iniciales" loading="lazy">
+      <p>La carpeta codi tiene permisos 750 y pertenece a root. El usuario paco no puede consultar joc.py por falta de acceso al directorio. Los permisos 750 conceden acceso completo al propietario y lectura y acceso al grupo, pero ninguno al resto. La falta de permiso de acceso al directorio impide consultar el archivo que contiene.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_20-46.png" alt="La carpeta codi tiene permisos 750 y pertenece a root" loading="lazy">
+      <p>Asignación numérica de permisos: codi 750, art 755 e informe.txt 640. El contenido de codi se consulta con sudo. La opción -R aplica el cambio de codi también a su contenido. Los listados permiten comprobar los permisos finales, utilizando sudo cuando el usuario normal no puede acceder.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_20-48.png" alt="Asignación numérica de permisos: codi 750, art 755 e informe" loading="lazy">
+      <p>Modificación simbólica de los permisos de art: se retira y repone escritura del propietario y se elimina el acceso de otros. La notación simbólica modifica permisos concretos: u-w retira escritura al propietario, u+w la devuelve y o= deja sin permisos a los demás. ls -ld muestra el resultado sobre la propia carpeta.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_20-43.png" alt="Modificación simbólica de los permisos de art: se retira y repone escritura del propietario y se elimina el acceso de otros" loading="lazy">
+      <p>Pau puede crear nivell1.py en codi, pero no intrus.txt en proves. Se observan la propiedad pau:programadors y el grupo testers en proves. La prueba compara dos directorios con propietarios y permisos diferentes. El archivo se crea donde pau tiene permiso de escritura; en proves, touch devuelve un error de acceso.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_20-52.png" alt="Pau puede crear nivell1" loading="lazy">
+      <p>Se habilita escritura del grupo, pero nvidal no consigue ejecutar sudo chmod g+s. La carpeta no muestra la s y so.py conserva el grupo nvidal. La prueba pretende que los archivos nuevos hereden el grupo de la carpeta. Como no se activa SGID, el archivo creado por nvidal sigue utilizando su grupo principal y no programadors.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_20-54.png" alt="Se habilita escritura del grupo, pero nvidal no consigue ejecutar sudo chmod g+s" loading="lazy">
+      <p>Sin sticky bit, marc puede borrar el archivo de pau. Tras aplicar chmod +t, el mismo intento termina con Operación no permitida. El sticky bit se reconoce por la t al final de los permisos. En esta prueba protege el archivo de pau frente al borrado por marc, aunque ambos puedan escribir en el directorio compartido.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_21-00.png" alt="Sin sticky bit, marc puede borrar el archivo de pau" loading="lazy">
+      <p>Una ACL permite a marc listar codi. Después se elimina su entrada con setfacl -x y se comprueba con getfacl. La entrada user:marc:r-x concede lectura y acceso a ese usuario sin añadirlo al grupo del directorio. La consulta final permite comprobar que esa autorización específica se ha retirado.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_21-02.png" alt="Una ACL permite a marc listar codi" loading="lazy">
+      <p>Comparación de umask 0002 y 027, que genera archivos 640 y directorios 750 en la segunda prueba. Se inspecciona SUID en passwd y otros ejecutables. umask restringe los permisos iniciales de los nuevos archivos y carpetas. En la segunda parte, la s de passwd identifica SUID y find localiza otros ejecutables que tienen activado ese bit.</p>
+      <img src="gestion%20usuarios%202/2026-11-08_20-47.png" alt="Comparación de umask 0002 y 027, que genera archivos 640 y directorios 750 en la segunda prueba" loading="lazy">
+      <p class="tornar-index"><a href="#index-apartats">↑ Tornar a l'índex</a></p>
+    </article>
+  </section>
+</main>
+
+<footer class="peu">
+  <p class="peu-llicencia">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="license noopener">
+      <img src="https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png" alt="Llicència Creative Commons Reconeixement-NoComercial-CompartirIgual 4.0" width="88" height="31">
+    </a>
+    <span>Contingut sota llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="license noopener">CC BY-NC-SA 4.0</a></span>
+  </p>
+  <p class="autoria">Autor/a: <strong>Paco</strong> · Sprint 2 · Sistemes Operatius (ISOPJ1)</p>
+</footer>
+
+</body>
+</html>
